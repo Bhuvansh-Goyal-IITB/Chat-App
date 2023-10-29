@@ -1,0 +1,15 @@
+services:
+  client:
+    build: ./client
+    volumes:
+      - ./client:/usr/src/app
+    ports: 
+      - "8000:8000"
+    depends_on:
+      - server
+  server:
+    build: ./server
+    volumes:
+      - ./server:/usr/src/app
+    ports: 
+      - "3000:3000"
