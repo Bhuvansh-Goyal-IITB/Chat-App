@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import Container from "./components/Container";
 import Header from "./components/Header";
 import { io, Socket } from "socket.io-client";
+import uniqid from "uniqid";
 
 function App() {
   const [socket, setSocket] = useState<Socket | null>(null);
@@ -9,7 +10,7 @@ function App() {
   const [value, setValue] = useState<string>("");
 
   useEffect(() => {
-    const newSocket = io("http://192.168.1.102:3000");
+    const newSocket = io(import.meta.env.VITE_SERVER_URL);
     setSocket(newSocket);
     return () => {
       newSocket.close();
@@ -37,7 +38,9 @@ function App() {
         <Header />
         <div className="bg-blue-950 overflow-y-scroll flex-grow">
           {messages.map((message) => (
-            <div className="text-xl text-white">{message}</div>
+            <div key={uniqid()} className="text-xl text-white">
+              {message}
+            </div>
           ))}
         </div>
         <div className="flex w-full">

@@ -1,15 +1,22 @@
 services:
-  client:
+  chat_frontend:
     build: ./client
     volumes:
       - ./client:/usr/src/app
-    ports: 
+      - /usr/src/app/node_modules
+    environment:
+      VITE_SERVER_URL: http://localhost:3000
+    ports:
       - "8000:8000"
     depends_on:
-      - server
-  server:
-    build: ./server
+      - socket_server
+  socket_server:
+    build:
+      context: ./server/
+      dockerfile: Dockerfile
+      target: dev
     volumes:
       - ./server:/usr/src/app
-    ports: 
+      - /usr/src/app/node_modules
+    ports:
       - "3000:3000"
