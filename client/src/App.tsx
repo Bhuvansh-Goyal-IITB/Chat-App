@@ -9,7 +9,7 @@ function App() {
   const [value, setValue] = useState<string>("");
 
   useEffect(() => {
-    const newSocket = io("http://localhost:3000");
+    const newSocket = io("http://192.168.1.102:3000");
     setSocket(newSocket);
     return () => {
       newSocket.close();
@@ -28,6 +28,7 @@ function App() {
   const sendMessage = (message: string) => {
     setMessages((prev) => [...prev, message]);
     socket?.emit("message", message);
+    setValue("");
   };
 
   return (
@@ -47,7 +48,7 @@ function App() {
             }}
             onKeyDown={(e) => {
               if (e.key == "Enter") {
-                // console.log("");
+                sendMessage(value);
               }
             }}
             type="text"
